@@ -1,0 +1,20 @@
+{
+    "DockerFilePath": "deploy/Dockerfile",
+    "NamespacePrefix": "ehrss-ext-sec",
+    "HelmFolder": "helm",
+    "HelmDryRun": 0,
+    "isCanary": true,
+    "reverseCanarySeq": 1,
+    "sonaApplicationId": "ehrss-esam-uam-interface-cloud-svc",
+    "scan":{
+        "sonatype":{
+            "enable": false
+        },
+        "sonarqube":{
+            "enable": false
+        },
+        "fortify":{
+            "enable": false
+        }
+    }
+}

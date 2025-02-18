@@ -1,0 +1,39 @@
+{{- if not .Values.common.majorRelease }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "common.volume.name" (list . "" )}}-configmap
+  labels: {{- include "common.application.labels" . | nindent 4 }}
+data:
+  ENV: {{ .Values.common.application.env }}
+  application.yml: |-
+    CONNECT_TIME_OUT: {{ .Values.config.connectTimeout }}
+    READ_TIME_OUT: {{ .Values.config.readTimeout }}
+    spring:
+      application:
+        name: {{ include "common.volume.name" (list . "" )}}
+      mvc:
+        pathmatch:
+          matching-strategy: ant_path_matcher
+      jpa:
+        properties:
+          hibernate:
+            temp:
+              use_jdbc_metadata-defaults: false
+            hbm2ddl:
+              auto: none
+        show-sql: false
+        open-in-view: false
+        hibernate:
+          naming:
+            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        database-platform: org.hibernate.dialect.Oracle12cDialect
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,metrics,prometheus
+      metrics:
+        tags:
+          application: ${spring.application.name}
+{{- end}} 

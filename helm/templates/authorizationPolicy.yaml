@@ -1,0 +1,20 @@
+{{- if .Values.common.majorRelease }}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "common.serviceCd" . }}.00{{ .Values.common.application.version }}--ehrss-itsp-cronicle-app.001
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      servicecode: {{ include "common.serviceCd" . }}
+      serviceversion: "00{{ .Values.common.application.version }}"
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/ehrss-ext-am-{{ .Values.common.application.env }}/sa/ehrss-itsp-cronicle-app-1-sa
+    - to:
+        - operation:
+            paths: ["/*"]
+{{- end }}

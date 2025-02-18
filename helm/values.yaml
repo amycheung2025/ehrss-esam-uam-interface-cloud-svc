@@ -1,0 +1,95 @@
+common:
+  application:
+    productCode: ehrss
+    sgrServiceCode: ESAM_UAM_INTERFACE-CLOUD
+    type: svc
+    version: '1'
+    minorVersion: '0'
+    patchVersion: '0'
+    replicaCount: 2
+    alertProjectCode: ESAM
+    module: ESAM-UAM
+  service:
+    port: 8080
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 1.8Gi
+      ephemeral-storage: 300Mi
+  podAnnotations:
+    sidecar.istio.io/proxyMemory: 256Mi
+    sidecar.istio.io/proxyMemoryLimit: 300Mi
+
+  istio:
+    enable: true
+    ingress: 
+      enabled: false
+    sidecar: 
+      ldap:
+        name: ehrss-esam-uam-interface-cloud-svc-1
+        namespace: ehrss-ext-sec
+  component:
+    als:
+      enabled: true
+    volumeLogs:
+      enabled: true
+    eapm:
+      enabled: true
+    ucp:
+      enabled: true
+    mongo:
+      enabled: false
+    amq:
+      enabled: false
+    redis:
+      enabled: false
+    healthCheck:
+      enabled: true
+      config:
+        schedule: 10,25,40,55 * * * *
+        url: /healthcheck
+        type: GET
+    supportPortalMonitoring:
+      enabled: true
+    conjur:
+      enabled: false
+      config:
+        mode: sidecar
+
+  extraVolumes:
+    configMap:
+      application:
+        path: /usr/local/cloud/config/application.yml
+        subPath: application.yml
+
+  extraEnvVarsSecret:
+    - name: conn-managed-ora-esam-app-cld-rw-user-pwd-secret
+    
+  extraEnvVars:   
+    - name: ENV
+      valueFrom:
+        configMapKeyRef:
+          name: ehrss-esam-uam-interface-cloud-svc-1-0-0-configmap
+          key: ENV
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 3
+    targetCPUPercentage: 700
+
+  # readiness
+  readinessProbe:
+    content:
+      failureThreshold: 3
+      httpGet:
+        path: /healthcheck
+        port: 8080
+        scheme: HTTP
+      initialDelaySeconds: 30
+      periodSeconds: 60
+      successThreshold: 1
+      timeoutSeconds: 1
+config:
+    connectTimeout: 5000
+    readTimeout: 30000
