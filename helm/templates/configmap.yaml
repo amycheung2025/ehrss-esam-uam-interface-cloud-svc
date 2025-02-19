@@ -15,19 +15,6 @@ data:
       mvc:
         pathmatch:
           matching-strategy: ant_path_matcher
-      jpa:
-        properties:
-          hibernate:
-            temp:
-              use_jdbc_metadata-defaults: false
-            hbm2ddl:
-              auto: none
-        show-sql: false
-        open-in-view: false
-        hibernate:
-          naming:
-            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        database-platform: org.hibernate.dialect.Oracle12cDialect
     management:
       endpoints:
         web:

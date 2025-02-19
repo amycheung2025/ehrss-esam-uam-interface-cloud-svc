@@ -6,9 +6,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 
 import hk.gov.ehr.service.esam.uam.uae.constants.Constant;
-import hk.gov.ehr.service.tch.als.AlsLogger;
-import hk.gov.ehr.service.tch.als.AlsMessage;
-import hk.gov.ehr.service.tch.als.lib.exception.AlsException;
 
 @Service
 public class SvcLogger {
