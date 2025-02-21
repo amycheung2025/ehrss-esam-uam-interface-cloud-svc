@@ -41,11 +41,11 @@ echo "Using UMASK: $UMASK"
 
 #-------Conjur export(Start)-------
 
-#echo "Conjur 20240426V2"
+echo "Conjur 20240426V2"
 
-#echo "CyberArkSafe_secret1: $CyberArkSafe_secret1"
-#echo "CyberArkAccount_secret1: $CyberArkAccount_secret1"
+echo "CyberArkSafe_secret1: $CyberArkSafe_secret1"
+echo "CyberArkAccount_secret1: $CyberArkAccount_secret1"
 
-#export conjur_CloudDB_UAM_INTERFACE_RW_password=$(summon-conjur Vault/$CyberArk_LobAccount/$CyberArkSafe_secret1/$CyberArkAccount_secret1/password)
+export conjur_CloudDB_UAM_INTERFACE_RO_password=$(summon-conjur Vault/$CyberArk_LobAccount/$CyberArkSafe_secret1/$CyberArkAccount_secret1/password)
 
 java ${JAVA_OPTS} -jar ${JAR_OPTS} webapps/application.jar

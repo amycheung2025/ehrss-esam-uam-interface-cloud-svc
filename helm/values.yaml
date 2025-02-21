@@ -9,16 +9,17 @@ common:
     replicaCount: 2
     alertProjectCode: ESAM
     module: ESAM-UAM
-  service:
-    port: 8080
-  resources:
-    limits:
-      cpu: 1.5
-      memory: 1.8Gi
-      ephemeral-storage: 300Mi
+
   podAnnotations:
     sidecar.istio.io/proxyMemory: 256Mi
     sidecar.istio.io/proxyMemoryLimit: 300Mi
+  service:
+    port: 8080
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
   istio:
     enable: true
@@ -26,8 +27,26 @@ common:
       enabled: false
     sidecar: 
       ldap:
-        name: ehrss-esam-uam-interface-cloud-svc-1
+        name: ehrss-esam-so-ldap-cloud-svc-1
         namespace: ehrss-ext-sec
+      dls:
+        name: ehrss-dls-dls-core-svc-3
+        namespace: ehrss-ext-core
+      afw:
+        name: ehrss-afw-noti-core-svc-3
+        namespace: ehrss-ext-core
+      ibx:
+        name: ehrss-ibx-ibs-mailservice-svc-4
+        namespace: ehrss-ext-core
+      pvdrHcpQuery:
+        name: ehrss-pvdr-serv-hcpquery-svc-2
+        namespace: ehrss-ext-biz
+      pvdrValidation:
+        name: ehrss-pvdr-serv-validation-svc-2
+        namespace: ehrss-ext-biz
+      pvdrHulink:
+        name: ehrss-pvdr-serv-hulink-svc-2
+        namespace: ehrss-ext-biz
   component:
     als:
       enabled: true
@@ -52,7 +71,7 @@ common:
     supportPortalMonitoring:
       enabled: true
     conjur:
-      enabled: false
+      enabled: true
       config:
         mode: sidecar
 

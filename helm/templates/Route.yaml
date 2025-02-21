@@ -1,0 +1,19 @@
+{{- if .Values.common.majorRelease }}
+{{- if eq "dev" .Values.common.application.env -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "common.application.serviceName" . }}-route
+  labels:
+    app: {{ include "common.application.serviceName" . }}
+spec:
+  host: {{ include "common.application.serviceName" . }}-{{ $.Release.Namespace }}.apps-dev.ehrpaast7a.serverdev.ehr.gov.hk
+  to:
+    kind: Service
+    name: {{ include "common.application.serviceName" . }}
+    weight: 100
+  tls:
+    termination: edge
+  wildcardPolicy: None
+{{- end }}
+{{- end }}

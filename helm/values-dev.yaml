@@ -1,18 +1,13 @@
 common:
   application:
     env: dev
-resources:
-limits:
-  cpu: 1
-  memory: 1536Mi
-  ephemeral-storage: 300Mi
-#  component:
-#    conjur:
-#      config:
-#        secret:
-#          1:
-#            CyberArkSafe: ESAM_DB_BG
-#            CyberArkAccount: Database-OraDBLoc_Approval_AutoOTP-ehrsamd1-ESAM_APP_CLD_RW_USER
+  component:
+    conjur:
+      config:
+        secret:
+          1:
+            CyberArkSafe: ESAM_DB_BG
+            CyberArkAccount: Database-OraDBLoc_Approval_AutoOTP-ehrsamd1-ESAM_APP_CLD_RO_USER
 
-#config:
-#  rw_oracle_url: jdbc:oracle:thin:@(DESCRIPTION=(CONNECT_TIMEOUT=120)(RETRY_COUNT=3)(RETRY_DELAY=3)(TRANSPORT_CONNECT_TIMEOUT=5s)(ADDRESS_LIST=(LOAD_BALANCE=on)(FAILOVER=on)(ADDRESS=(PROTOCOL=TCP)(HOST=ehrdbs2a)(PORT=14975)))(CONNECT_DATA=(SERVICE_NAME=esam_dev_rw.serverdev.ehr.gov.hk)))
+config:
+  ro_oracle_url: jdbc:oracle:thin:@(DESCRIPTION=(CONNECT_TIMEOUT=120)(RETRY_COUNT=3)(RETRY_DELAY=3)(TRANSPORT_CONNECT_TIMEOUT=5s)(ADDRESS_LIST=(LOAD_BALANCE=on)(FAILOVER=on)(ADDRESS=(PROTOCOL=TCP)(HOST=ehrdbs2a)(PORT=14975)))(CONNECT_DATA=(SERVICE_NAME=esam_dev_ro.serverdev.ehr.gov.hk)))

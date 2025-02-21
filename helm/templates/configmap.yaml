@@ -9,12 +9,45 @@ data:
   application.yml: |-
     CONNECT_TIME_OUT: {{ .Values.config.connectTimeout }}
     READ_TIME_OUT: {{ .Values.config.readTimeout }}
+    server:
+      port: {{ .Values.common.service.port }}    
     spring:
       application:
         name: {{ include "common.volume.name" (list . "" )}}
       mvc:
         pathmatch:
           matching-strategy: ant_path_matcher
+      datasource:
+        url: {{ .Values.config.ro_oracle_url }}
+        username: ESAM_APP_CLD_RO_USER
+        password: ${conjur_CloudDB_UAM_INTERFACE_RO_password}
+        type: oracle.ucp.jdbc.PoolDataSource
+        oracleucp:
+          sql-for-validate-connection: SELECT 1 FROM DUAL
+          fast-connection-failover-enabled: true
+          validate-connection-on-borrow: true
+          connection-validation-timeout: 10
+          seconds-to-trust-idle-connection: 10
+          abandoned-connection-timeout: 86400
+          inactive-connection-timeout: 600
+          connection-wait-timeout: 10
+          min-pool-size: 10
+          initial-pool-size: 10
+          max-pool-size: 100
+          connection-pool-name: conn-managed-esam-ro-uam-ws
+      jpa:
+        properties:
+          hibernate:
+            temp:
+              use_jdbc_metadata-defaults: false
+            hbm2ddl:
+              auto: none
+        show-sql: false
+        open-in-view: false
+        hibernate:
+          naming:
+            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        database-platform: org.hibernate.dialect.Oracle12cDialect
     management:
       endpoints:
         web:
