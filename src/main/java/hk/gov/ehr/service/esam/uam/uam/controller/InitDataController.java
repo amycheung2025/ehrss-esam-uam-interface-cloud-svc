@@ -1,5 +1,8 @@
 package hk.gov.ehr.service.esam.uam.uam.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hk.gov.ehr.service.esam.uam.uam.common.Result;
 import hk.gov.ehr.service.esam.uam.uam.logging.SvcLogger;
+import com.google.gson.Gson;
+
 
 @RestController
 @RequestMapping(value = "/initDataService")
@@ -31,10 +36,15 @@ public class InitDataController {
 		String consumerCd = request.getHeader("EHR_SER_CD");
 
 		try{
-
-			String result = "isEhr_obEnabled"+ "Y";
 			
-			return Result.success("Success", result);
+			Gson gson = new Gson();
+
+			Map<String, String> data = new HashMap<>();
+            data.put("isEhr_obEnabled", "Y");
+			
+			String json = gson.toJson(data);
+
+			return Result.success(Result.SUCCES_CODE.toString(0), json);
 			
 		}catch(Exception e){
 			logger.aCritical(passAlongInfo, consumerCd, "IsEhr_obEnabled request fail : " + e.getMessage(),e, null ,null);
